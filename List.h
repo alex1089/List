@@ -48,9 +48,9 @@ public:
    bool insert(const int& location, const NODETYPE& value){
        if (location<0 && location>size-1)   // if location is out of range
 	   return false;
-       if (location==0 || firstPtr==nullptr)	// if insert at 1st element, or List is empty
+       if (location==0 || isEmpty())	// if insert at 1st element, or List is empty
 	   insertAtFront(value);
-       if (location==size-1)	    // if insertAtBack
+       else if (location==size-1)	    // if insertAtBack
 	   insertAtBack(value);
        else {
 	   ListNode<NODETYPE>* newNode = getNewNode(value);  // get new node
@@ -62,7 +62,9 @@ public:
 	   }
 	   prevPtr->nextPtr=newNode;	// set location-1's nextPtr to point to newPtr
 	   newNode->nextPtr=nodePtr;	// set newPtr's nextPtr to pointer and previous location
+	   size++;			// increase size of List
        }
+       return true;
    }
 
    // insert node at front of list
@@ -94,6 +96,32 @@ public:
       } // end else
       size++;	// increment size of List
    } // end function insertAtBack
+
+   // remove(int,NODETYPE) removes element from List, returns true on sucessful operation
+   bool remove(int element, NODETYPE &value){
+       if (element >= size || element < 0)	// if element is out of bound, return false
+	   return false;
+       if (element == 0 || element == size-1){ // if first or last element selected
+	   removeFromFront(value);
+       } else if (element == size-1) {	// if last element selected
+	   removeFromBack(value);
+       } else {
+	   ListNode<NODETYPE>* tempPtr=firstPtr;
+	   ListNode<NODETYPE>* prevPtr=nullptr;
+	   for (int i=0; i<element; i++) {
+	       prevPtr=tempPtr;
+	       tempPtr=tempPtr->nextPtr;
+	   }
+	   value=tempPtr->data;
+	   prevPtr->nextPtr=tempPtr->nextPtr;
+	   delete tempPtr;
+       }
+   }
+
+
+
+	   
+
 
    // delete node from front of list
    bool removeFromFront( NODETYPE &value )
