@@ -1,4 +1,4 @@
-// Fig. 19.5: List.h
+// Fig. 19.5: List.h 
 //
 // Template List class definition.
 // Edited by Aleksey Leshchuk
