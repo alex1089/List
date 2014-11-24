@@ -47,13 +47,13 @@ public:
 
    // insert(int location,NODETYPE &value) inserts value at location, returns true on sucess
    bool insert(const int& location, const NODETYPE& value){
-       if (location<0 || location>size-1)   // if location is out of range
-	   return false;
-       if (location==0 || isEmpty())	// if insert at 1st element, or List is empty
+       if (location==0 ){	// if insert at 1st element
 	   insertAtFront(value);
-       else if (location==size-1)	    // if insertAtBack
+       } else if (location<0 || location>=size){  // if location is out of range
+	   return false;
+       } else if (location==size-1){	    // if insertAtBack
 	   insertAtBack(value);
-       else {
+       } else {
 	   ListNode<NODETYPE>* newNode = getNewNode(value);  // get new node
 	   ListNode<NODETYPE>* nodePtr = firstPtr;
 	   ListNode<NODETYPE>* prevPtr;
@@ -102,13 +102,15 @@ public:
    bool removeElement(const NODETYPE& value){
        ListNode<NODETYPE>* nodePtr= firstPtr;	// first node in list
        NODETYPE temp;
-       for (int i=0; i<sizeOf(); i++){	// itirate through List 
+       int i=0;	    // index variable
+       while (nodePtr != nullptr){	// itirate through List 
 	   if (nodePtr->data == value){	// if a match is found
 	       removeIndex(i,temp);	// remove the element matched
 	       return true;
 	   } else { 
 	       nodePtr=nodePtr->nextPtr;
 	   }
+	   i++;
        }
        return false;	// return false if value is not found in List
    }
