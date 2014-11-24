@@ -18,7 +18,7 @@ class List
 public:
     // default constructor
    List()
-      : firstPtr( nullptr ), lastPtr( nullptr ) 
+      : firstPtr( nullptr ), lastPtr( nullptr ), size( 0 )
    { 
       // empty body
    } // end List constructor
@@ -80,7 +80,6 @@ public:
          newPtr->nextPtr = firstPtr; // point new node to old 1st node
          firstPtr = newPtr; // aim firstPtr at new node
       } // end else
-      size++;	    // increment size of List
    } // end function insertAtFront
 
    // insert node at back of list
@@ -95,7 +94,6 @@ public:
          lastPtr->nextPtr = newPtr; // update previous last node
          lastPtr = newPtr; // new last node
       } // end else
-      size++;	// increment size of List
    } // end function insertAtBack
 
    // removeElement(NODETYPE) removes element if it exists in the List
