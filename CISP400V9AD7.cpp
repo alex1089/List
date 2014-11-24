@@ -32,7 +32,6 @@ int main(){
     processList[REPOP] = &fillList;
 
     fillList(intList);	// initialize List  with 20 random numbers
-    intList.print(); // print generated List
     do {
 	userSelection=menu();	// call menu and get user input
 	if (userSelection != QUIT)  // if userInput is not quit
@@ -45,8 +44,7 @@ int main(){
 // fillList template function generates a 20 NODE int array
 void fillList(List<int>& intList){
     int x;  // dummy variable used for deletion
-    if ( !intList.isEmpty() ){ // if List isnt empty, remove all elements
-	for (int i=0; i<intList.sizeOf();i++)
+    while ( !intList.isEmpty() ){ // if List isnt empty, remove all elements
 	    intList.removeFromBack(x);
     }
     default_random_engine generator(static_cast<unsigned int>(time(nullptr)));
