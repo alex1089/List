@@ -25,17 +25,17 @@ select menu();
 
 int main(){
     List<int> intList;
-    fillList(intList);	// initialize List  with 20 random numbers
     select userSelection; // select variable to hold user selection
     void (*processList[4])(List<int>&);	    // function pointers 1-3, 0 is an offset
     processList[INSERT] = &insertIntoList;
     processList[DELETE] = &deleteFromList;
     processList[REPOP] = &fillList;
 
-
+    fillList(intList);	// initialize List  with 20 random numbers
+    intList.print(); // print generated List
     do {
-	intList.print(); // print generated List
 	userSelection=menu();	// call menu and get user input
+	if (userSelection != QUIT)  // if userInput is not quit
 	processList[userSelection](intList);	// call user selected operation
     } while (userSelection != QUIT);
 
@@ -54,6 +54,7 @@ void fillList(List<int>& intList){
 
     for (int i=0; i<20; i++)
 	intList.insertAtBack(distr(generator));
+    intList.print();	// print resulting list
 }
 
 // insertIntoList provides user interface for inserting an element into List
@@ -64,7 +65,7 @@ void insertIntoList(List<int>& intList){
     cout<<"\nEnter the value you want added at this location: ";
     cin>>value;
     if (!intList.insert(location,value))    // if location is invalid print error
-	cout<<"\nInvalid index, no data added to list.";
+	cout<<"\nInvalid index, no data added to list.\n";
     else 
 	intList.print();	// else print the list
 }
@@ -86,11 +87,13 @@ void deleteFromList(List<int>& intList){
 // menu function provides user interface
 select menu(){
     int selection;
-    cout<<"\nPlease select one of the following selection or eneter -1 to exit:\n";
-    cout<<"\t1. Insert an element to the List.\n";
-    cout<<"\t2. Delete an element from the List.\n";
-    cout<<"\t3. Repopulate the List information.\n:";
-    cin>>selection;
+    do {    // request input until valid input is entered
+	cout<<"\nPlease select one of the following selection or eneter -1 to exit:\n";
+	cout<<"\t1. Insert an element to the List.\n";
+	cout<<"\t2. Delete an element from the List.\n";
+	cout<<"\t3. Repopulate the List information.\n:";
+	cin>>selection;
+    } while ( (selection < 0 && selection != QUIT ) || selection > 3 ); // if selection is invalid
 
     return static_cast<select>(selection);  // return user input cast to type selection
 }
