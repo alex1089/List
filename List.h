@@ -62,6 +62,7 @@ public:
 	   }
 	   prevPtr->nextPtr=newNode;	// set location-1's nextPtr to point to newPtr
 	   newNode->nextPtr=nodePtr;	// set newPtr's nextPtr to pointer and previous location
+	   return true;
        }
    }
 
