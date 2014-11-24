@@ -47,7 +47,7 @@ public:
 
    // insert(int location,NODETYPE &value) inserts value at location, returns true on sucess
    bool insert(const int& location, const NODETYPE& value){
-       if (location<0 && location>size-1)   // if location is out of range
+       if (location<0 || location>size-1)   // if location is out of range
 	   return false;
        if (location==0 || isEmpty())	// if insert at 1st element, or List is empty
 	   insertAtFront(value);
@@ -98,14 +98,29 @@ public:
       size++;	// increment size of List
    } // end function insertAtBack
 
-   // remove(int,NODETYPE) removes element from List, returns true on sucessful operation
-   bool remove(int element, NODETYPE &value){
+   // removeElement(NODETYPE) removes element if it exists in the List
+   bool removeElement(const NODETYPE& value){
+       ListNode<NODETYPE>* nodePtr= firstPtr;	// first node in list
+       NODETYPE temp;
+       for (int i=0; i<sizeOf(); i++){	// itirate through List 
+	   if (nodePtr->data == value){	// if a match is found
+	       removeIndex(i,temp);	// remove the element matched
+	       return true;
+	   } else { 
+	       nodePtr=nodePtr->nextPtr;
+	   }
+       }
+       return false;	// return false if value is not found in List
+   }
+
+   // removeIndex(int,NODETYPE) removes element from List, returns true on sucessful operation
+   bool removeIndex(int element, NODETYPE &value){
        if (element >= size || element < 0)	// if element is out of bound, return false
 	   return false;
-       if (element == 0 || element == size-1){ // if first or last element selected
-	   removeFromFront(value);
-       } else if (element == size-1) {	// if last element selected
-	   removeFromBack(value);
+       if (element == 0 && !isEmpty()) // if first element and List is not emepty
+	   return removeFromFront(value);
+       else if (element == size-1) {	// if last element selected
+	   return removeFromBack(value);
        } else {
 	   ListNode<NODETYPE>* tempPtr=firstPtr;
 	   ListNode<NODETYPE>* prevPtr=nullptr;
@@ -115,14 +130,11 @@ public:
 	   }
 	   value=tempPtr->data;
 	   prevPtr->nextPtr=tempPtr->nextPtr;
-	   delete tempPtr;
+	   delete tempPtr;  // deallocate memory
+	   size--;	    // decrement size of List
+	   return true;	    // successful remove of element
        }
    }
-
-
-
-	   
-
 
    // delete node from front of list
    bool removeFromFront( NODETYPE &value )
@@ -202,6 +214,11 @@ public:
 
       std::cout << "\n\n";
    } // end function print
+
+   // sizeOf() returns number of elements in the List
+   size_t sizeOf() const {
+       return size;
+   }
 
 private:
    ListNode< NODETYPE > *firstPtr; // pointer to first node
