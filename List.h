@@ -56,12 +56,13 @@ public:
        } else {
 	   ListNode<NODETYPE>* newNode = getNewNode(value);  // get new node
 	   ListNode<NODETYPE>* nodePtr = firstPtr;
-	   ListNode<NODETYPE>* prevPtr;
+	   ListNode<NODETYPE>* prevPtr=nullptr;
 	   for (int i=0;i<location;i++){	// iterate through array to reach the location element
 	       prevPtr=nodePtr;		// save previous ptr
 	       nodePtr=nodePtr->nextPtr;    
 	   }
-	   prevPtr->nextPtr=newNode;	// set location-1's nextPtr to point to newPtr
+	   if (prevPtr!=nullptr)
+	       prevPtr->nextPtr=newNode;	// set location-1's nextPtr to point to newPtr
 	   newNode->nextPtr=nodePtr;	// set newPtr's nextPtr to pointer and previous location
        }
        return true;
